@@ -48,3 +48,54 @@ Netcat
 **Explanation:**
 After identifying open ports, attackers commonly use Netcat to manually connect to services and interact with them. The observed behavior of connecting to multiple ports after scanning aligns with how Netcat is used for testing and communication with open services.
 
+## Question 5
+
+**Answer:**  
+10.1.10.16  
+
+**Explanation:**  
+I filtered for port 23 in Wireshark and looked at how each IP responded. If the port was open, it would return SYN-ACK, but if it was closed it returned RST. The IP 10.1.10.16 kept returning RST responses, so that means port 23 was not open on that machine.
+
+
+## Question 6
+
+**Answer:**  
+4.0 seconds  
+
+**Explanation:**  
+I filtered for the scan traffic using SYN packets on port 23 and looked at the Time column. Then I found the first scan packet and the last one and subtracted the times. The difference came out to about 4 seconds, so that’s how long the scan took.
+
+
+## Question 7
+
+**Answer:**  
+TCP 2200  
+
+**Explanation:**  
+I checked which ports were actually being scanned by looking for repeated SYN packets. Ports 23, 80, and 3389 showed up a lot across different IPs, meaning they were part of the scan. Port 2200 only showed up once and didn’t have that same pattern, so it wasn’t part of the scan.
+
+## Question 8
+
+**Answer:**  
+1  
+
+**Explanation:**  
+I filtered for port 3389 and looked for SYN-ACK responses, which indicate the port is open. Most IPs returned RST, meaning closed, but only one IP actually responded with SYN-ACK. So only one machine had port 3389 open.
+
+
+## Question 9
+
+**Answer:**  
+10.1.10.15 and 10.1.10.13  
+
+**Explanation:**  
+I compared how different IPs responded to the scans on ports 23, 80, and 3389. Both 10.1.10.15 and 10.1.10.13 behaved the same way and returned RST for all of them, meaning everything was closed. Since their behavior matched exactly, they’re likely the same type of device.
+
+
+## Question 10
+
+**Answer:**  
+10.1.10.20  
+
+**Explanation:**  
+I looked for the IP that had more activity and open ports compared to the others. Most devices were mostly closed, but 10.1.10.20 had more open responses (SYN-ACK). That suggests it’s running more services, which matches what an HMI would look like.
