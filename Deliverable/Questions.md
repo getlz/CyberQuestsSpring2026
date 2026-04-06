@@ -1,5 +1,4 @@
 ## Question 1
-
 **Question:**
 What service appears to be running on port 2200?
 
@@ -7,7 +6,7 @@ What service appears to be running on port 2200?
 Secure Shell (SSH)
 
 **Explanation:**
-Traffic on port 2200 was analyzed using Wireshark. By inspecting packets and applying an `ssh` filter, the protocol was identified as SSH. This was confirmed by packet details showing “SSH Protocol” and the presence of an SSH version string (e.g., SSH-2.0-OpenSSH), indicating that Secure Shell was running on port 2200, even though it is a non-standard port.
+Traffic on port 2200 was analyzed using Wireshark. By inspecting packets and applying an `ssh` filter, the protocol was identified as SSH. This was confirmed by packet details showing “SSH Protocol” and  of an SSH version string (e.g., SSH-2.0-OpenSSH), indicating that Secure Shell was running on port 2200, even though it is a non-standard port
 
 ---
 
@@ -20,7 +19,7 @@ Which IP address had port 2200 open?
 10.1.10.33
 
 **Explanation:**
-The attacker IP (172.31.255.28) was observed scanning multiple internal hosts. Most targets responded with reset (RST) packets, indicating closed ports. However, 10.1.10.33 responded with a successful connection on port 2200, and SSH traffic was established. This confirms that port 2200 was open on 10.1.10.33.
+The attacker IP (172.31.255.28) was observed scanning multiple internal hosts. Most targets responded with reset (RST) packets indicating closed ports. 10.1.10.33 responded with a successful connection on port 2200, and SSH traffic was established. This confirms that port 2200 was open on 10.1.10.33.
 
 ---
 
@@ -33,20 +32,20 @@ Which version of SSH was the attacker using?
 OpenSSH 5.3p1
 
 **Explanation:**
-Within the packet data, the SSH handshake revealed the version string “SSH-2.0-OpenSSH_5.3p1”. This identifies the exact version of the SSH client used by the attacker during the connection attempt.
+Within the packet data, the SSH handshake revealed the version string “SSH-2.0-OpenSSH_5.3p1”. This identifies the exact version of the SSH client used by the attacker during the connection attempt
 
 ---
 
 ## Question 4
 
 **Question:**
-It appears that after running a scan, the attackers made connections to each of the open ports. Which of the following tools was most likely used to establish those connections?
+It appears that after running a scan the attackers made connections to each of the open ports. Which of the following tools was most likely used to establish those connections?
 
 **Answer:**
 Netcat
 
 **Explanation:**
-After identifying open ports, attackers commonly use Netcat to manually connect to services and interact with them. The observed behavior of connecting to multiple ports after scanning aligns with how Netcat is used for testing and communication with open services.
+After identifying open ports, attackers commonly use Netcat to manually connect to services and interact with them. The observed behavior of connecting to multiple ports after scanning aligns with how Netcat is used for testing and communication with open services
 
 ## Question 5
 
@@ -99,3 +98,44 @@ I compared how different IPs responded to the scans on ports 23, 80, and 3389. B
 
 **Explanation:**  
 I looked for the IP that had more activity and open ports compared to the others. Most devices were mostly closed, but 10.1.10.20 had more open responses (SYN-ACK). That suggests it’s running more services, which matches what an HMI would look like.
+
+## Question 11
+
+**Answer:**  
+Ethernet Industrial Protocol  
+
+**Explanation:**  
+I looked at th packet capture and saw protocols labeled as CIP and ENIP. These are part of EtherNet/IP, which is used in industrial systems. Since both showed up in the traffic between the devices, that means Ethernet Industrial Protocol was being used.
+
+
+## Question 12
+
+**Answer:**  
+The .20 device requests data at regular intervals  
+**Explanation:**  
+I looked at the communication between 10.1.10.20 and 10.1.10.130 and saw a repeating pattern where .20 sends requests and .130 responds. This happens continuously, which shows that .20 is polling .130 at regular intervals.
+
+
+## Question 13
+
+**Answer:**  
+0x2a  
+
+**Explanation:**  
+I compared multiple packets from 10.1.10.20 to 10.1.10.130 and looked at the hex data. I found a value at offset 0x2a that increased with each packet, which indicates it is a counter
+
+
+## Question 14
+
+**Answer:**  
+guest  
+**Explanation:**  
+I followed the TCP stream and found the HTTP authentication header. It showed "Authorization: Digest username=\"guest\"which confirms that the username used was guest
+
+## Question 15
+
+**Answer:**  
+/dataview.htm  
+
+**Explanation:**  
+In the TCP stream, the request for /dataview.htm included the authentication header. Since this is where the credentials were used, it was the first URL that triggered authentication
